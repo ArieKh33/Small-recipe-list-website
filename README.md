@@ -1,3 +1,5 @@
+Hello everyone.
+
 This was originally a smaller school project where you had to make a website with foodblogs which blog each would containunique tags.
 But now I am changing it to be a website with food with short descriptions on how to make them.
 It is still in it's early stages but will be updated regurerly to practise new methods and techniques.
