@@ -131,6 +131,7 @@
                                             <?php } ?>
                                         </form>
 
+                                        <!-- NOTE: The way likes are sent to a post are very ineffecient and needs a remake -->
                                         <form class="col" action="index.php" method="post">
                                             <button type="submit" value="<?= $post['id']; ?>" name="like">
                                                 <?= $post['likes']; ?> likes

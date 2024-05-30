@@ -3,6 +3,8 @@
         <link rel="stylesheet" type="text/css" href="style.css">
     </head>
     <body>
+
+    <!-- NOTE: This page mainly needs a styling update since it doesn't align with the other pages yet. -->
         <div class="container">
 
             <div id="header">
@@ -17,12 +19,12 @@
             if (isset($_POST["submit"])) {
                 $titel = $_POST["titel"];
                 $auteur_id = $_POST["auteurs"];
-                // Strip tags van whitespaces en maak alles lower case
+                // Strip the tags and make them lower case
                 $tags = array_map('strtolower', array_map('trim', explode(',', $_POST["tags"])));
                 $inhoud = $_POST["inhoud"];
                 $foto = $_POST["img_url"];
 
-                // Voeg de post toe.
+                // Add the post into the table
                 try {
                     $sql = 'INSERT INTO posts(titel, auteur_id, datum, img_url, inhoud, likes) VALUES (:titel, :auteur_id, :datum, :img_url,  :inhoud, 0)';
                     $stmt = $db_conn->prepare($sql);
@@ -33,29 +35,29 @@
                     echo "Post publiceren mislukt: " . $e->getMessage();
                 }
 
-                // Voeg de tags toe aan aan tags tabel en hang aan juiste post.
+                // Add the tags
                 foreach ($tags as $tag) {
                     try {
-                        # Probeer de tag aan de tags tabel toe te voegen.
+                        // Try to add the tags into the list of tags.
                         $sql = 'INSERT INTO tags(titel) VALUES (:titel)';
                         $stmt = $db_conn->prepare($sql);
                         $stmt->execute(['titel' => $tag]);
                         $tag_id = [$db_conn->lastInsertId()];
                     } catch (PDOException $e) {
-                        // Als de tag al bestaat, haal dan alleen z'n id op.
+                        // If the tag already exists, add only the ID.
                         $sql = 'SELECT id FROM tags WHERE titel=:titel';
                         $stmt = $db_conn->prepare($sql);
                         $stmt->execute(['titel' => $tag]);
                         $tag_id = $stmt->fetch();
                     }
 
-                    // Voeg aan koppeltabel toe en hang aan juiste post.
                     $sql = 'INSERT INTO posts_tags(post_id, tag_id) VALUES (:post_id, :tag_id)';
                     $stmt = $db_conn->prepare($sql);
                     $stmt->execute(['post_id' => $post_id, 'tag_id' => $tag_id[0]]);
                 }
             } else {
                 ?>
+                    <!-- Here is the menu with all the data required -->
                     <form action="new_post.php" method="post">
                     Titel:<br/> <input type="text" name="titel"><br/><br/>
                     Auteurs:<br/>

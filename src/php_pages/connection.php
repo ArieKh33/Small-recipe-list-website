@@ -6,7 +6,7 @@ $username = 'bit_academy';
 $password = 'school2000';
 $database = 'foodblog';
 
-// 
+// Use the data above to login into the database
 try {
     $db_conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
 	$db_conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
