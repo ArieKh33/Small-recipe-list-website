@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ## Hello everyone
+=======
+Hello everyone.
+>>>>>>> 295d1cdf8a9690a7b318eb84599892bd0f2c2e23
 
 This was originally a smaller school project where you had to make a website with foodblogs which blog each would containunique tags.
 But now I am changing it to be a website with food with short descriptions on how to make them.
