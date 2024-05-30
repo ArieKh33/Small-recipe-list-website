@@ -1,0 +1,31 @@
+#header button {
+    float: right;
+    margin-top: 10vw;
+}
+
+img {
+    width: 100%;
+    object-fit: cover;
+}
+
+.post_title {
+    color: rgb(213, 217, 219);
+    border: solid;
+    text-transform: uppercase;
+    font-size: 1.5vw;
+    width: 15vw;
+}
+
+.inhoud {
+    height: 15rem;
+    overflow: auto;
+    font-size: 1vw;
+}
+
+
+span.details {
+    margin: 2px;
+    font-size: 1vw;
+    font-style: italic;
+    display: block;
+}
