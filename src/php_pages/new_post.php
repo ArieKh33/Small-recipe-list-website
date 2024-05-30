@@ -17,7 +17,6 @@
                 <a href="index.php"><button>Alle posts</button></a>
             </div>
             <?php
-            echo PHP_VERSION;
             include 'connection.php';
             $dateWritten = date("Y/m/d h:i:s");
             

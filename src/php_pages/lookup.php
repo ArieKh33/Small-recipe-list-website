@@ -62,7 +62,7 @@
 <!DOCTYPE html>
 <html lang="nl">
     <head>
-        <title>The Foodblog</title>
+        <title>The best list of recipes</title>
         <link rel="stylesheet" href="./src/styling/style.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
@@ -73,6 +73,8 @@
     </head>
     <body class="bg-black text-light">
 
+
+            <!-- NOTE: this page still needs to display which tag you previously selected -->
             <div class="header container" >
                 <h1 class="ms-1 mt-4">The best foodblog</h1>
                 

@@ -67,7 +67,7 @@
     <body class="bg-black text-light">
 
             <div class="header container" >
-                <h1 class="ms-1 mt-4">The best foodblog</h1>
+                <h1 class="ms-1 mt-4">The best list of recipes</h1>
                 
                 <p><a href="./src/php_pages/new_post.php">Nieuwe post</a></p>
             </div>
