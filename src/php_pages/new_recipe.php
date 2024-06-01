@@ -15,7 +15,7 @@
         <div class="container">
             
         <div class="header container" >
-                <h1 class=" mt-4"><a href="index.php" class=" text-decoration-none text-light">The best list of recipes</a></h1>
+                <h1 class=" mt-4"><a href=".../index.php" class=" text-decoration-none text-light">The best list of recipes</a></h1>
                 <h2>New Post</h2>
             </div>
 

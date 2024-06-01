@@ -9,13 +9,16 @@
         $sqlPosts = "SELECT posts.*, auteurs.naam FROM posts
                      INNER JOIN auteurs ON posts.auteur_id = auteurs.id
                      ORDER BY posts.likes DESC";
-        $sqlDataPosts = $db_conn->query($sqlPosts)->fetchall();    
+        $sqlDataPosts = $db_conn->query($sqlPosts)->fetchall();
+        getTagData($db_conn, $sqlDataPosts);
+    
     }
 
-        $tag = $_GET['tag']; 
 
     // You join the likes from the posts to the artist.
-    function fetchPosts2($db_conn, $tag, &$sqlDataPosts) {
+    function fetchPostsByTag($db_conn,&$sqlDataPosts) {
+    if (isset($_GET['tag'])) {
+        $tag = $_GET['tag']; 
         $sqlDataPosts = [];
         $sqlPosts = "SELECT posts.*, auteurs.naam 
                      FROM posts
@@ -24,10 +27,12 @@
                      INNER JOIN tags ON posts_tags.tag_id = tags.id
                      WHERE tags.titel = :tag
                      ORDER BY posts.likes DESC";
-        
         $stmt = $db_conn->prepare($sqlPosts);
         $stmt->execute(['tag' => $tag]);
         $sqlDataPosts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        getTagData($db_conn, $sqlDataPosts);
+    }
+
     }
 
 
@@ -56,8 +61,7 @@
     // Here you call all the functions.
     fetchPosts($db_conn,$sqlDataPosts);
     addPopularCheff($db_conn, $sqlCheffPosts);
-    getTagData($db_conn, $sqlDataPosts);
-
+    fetchPostsByTag($db_conn, $sqlDataPosts);
 
 ?>
 <!DOCTYPE html>
