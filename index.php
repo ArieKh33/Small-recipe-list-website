@@ -69,7 +69,7 @@
             <div class="header container" >
                 <h1 class="ms-1 mt-4">The best list of recipes</h1>
                 
-                <p><a href="./src/php_pages/new_post.php">Nieuwe post</a></p>
+                <p><a href="./src/php_pages/new_recipe.php">Nieuwe post</a></p>
             </div>
             
             <!-- the 3 boxes containing filters by tag and by writer -->

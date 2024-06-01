@@ -62,7 +62,7 @@
             } else {
                 ?>
                     <!-- Here is the menu with all the data required -->
-                    <form action="new_post.php" method="post">
+                    <form action="new_recipe.php" method="post">
                     Titel:<br/> <input type="text" name="titel"><br/><br/>
                     Auteurs:<br/>
                     <select name="auteurs">
