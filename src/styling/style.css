@@ -12,14 +12,14 @@ img {
     color: rgb(213, 217, 219);
     border: solid;
     text-transform: uppercase;
-    font-size: 1.5vw;
+    /* font-size: 1.5vw; */
     width: 15vw;
 }
 
 .inhoud {
     height: 15rem;
     overflow: auto;
-    font-size: 1vw;
+    /* font-size: 1vw; */
 }
 
 

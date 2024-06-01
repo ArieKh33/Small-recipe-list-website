@@ -1,21 +1,24 @@
 <html>
     <head>
         <title>New recipe</title>
-        <link rel="stylesheet" type="text/css" href="style.css">
         <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
         <link rel="manifest" href="site.webmanifest">
+        <link rel="stylesheet" href="./src/styling/style.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     </head>
-    <body>
+    <body class="bg-black text-light">
 
     <!-- NOTE: This page mainly needs a styling update since it doesn't align with the other pages yet. -->
         <div class="container">
-
-            <div id="header">
-                <h1>Nieuwe post</h1>
-                <a href="index.php"><button>Alle posts</button></a>
+            
+        <div class="header container" >
+                <h1 class=" mt-4"><a href="index.php" class=" text-decoration-none text-light">The best list of recipes</a></h1>
+                <h2>New Post</h2>
             </div>
+
             <?php
             include 'connection.php';
             $dateWritten = date("Y/m/d h:i:s");
@@ -34,9 +37,9 @@
                     $stmt = $db_conn->prepare($sql);
                     $stmt->execute(['titel' => $titel, 'auteur_id' => $auteur_id, 'datum' => $dateWritten,'img_url' => $foto ,'inhoud' => $inhoud]);
                     $post_id = $db_conn->lastInsertId();
-                    echo 'Post gepubliceerd';
+                    echo 'Recipe added';
                 } catch (PDOException $e) {
-                    echo "Post publiceren mislukt: " . $e->getMessage();
+                    echo "Adding recipe failed" . $e->getMessage();
                 }
 
                 // Add the tags

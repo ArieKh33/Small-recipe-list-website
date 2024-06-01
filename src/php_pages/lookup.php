@@ -76,9 +76,8 @@
 
             <!-- NOTE: this page still needs to display which tag you previously selected -->
             <div class="header container" >
-                <h1 class="ms-1 mt-4">The best foodblog</h1>
-                
-                <p><a href="./src/php_pages/new_recipe.php">Nieuwe post</a></p>
+                <h1 class=" mt-4"><a href="index.php" class=" text-decoration-none text-light">The best list of recipes</a></h1>
+                <h3><a class="text-decoration-none text-light" href="./src/php_pages/new_recipe.php">New post</a></h3>
             </div>
             
             <!-- the 3 boxes containing filters by tag and by writer -->
@@ -116,8 +115,11 @@
 
             </div>
 
+
+
+
             <!-- This container contains all the posts -->
-            <div class="container">
+            <div id="recipes" class="container">
                 <div class="row">
                     <?php foreach ($sqlDataPosts as $post) { ?>
                         <div class="post card bg-black bg-gradient border border-light-subtle col-12 col-md-6 col-lg-4">
