@@ -2,8 +2,8 @@
 
 require_once 'connection.php';
 
-if (isset($_POST["post_id"])) {
-    $id = $_POST["post_id"];
+if (isset($_POST["recipe_id"])) {
+    $id = $_POST["recipe_id"];
     $sql = "DELETE FROM recipes WHERE id = :id";
     $stmt = $db_conn->prepare($sql);
     $stmt->execute(["id" => $id]);

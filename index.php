@@ -20,17 +20,24 @@
     if (isset($_GET['tag'])) {
         $tag = $_GET['tag']; 
         $sqlDataRecipes = [];
-        $sqlRecipes = "SELECT recipes.*, writers.writerName 
-                     FROM recipes
-                     INNER JOIN writers ON recipes.writer_id = writers.id
-                     INNER JOIN recipe_tags ON recipes.id = recipe_tags.recipe_id
-                     INNER JOIN tags ON recipe_tags.tag_id = tags.id
-                     WHERE tags.titel = :tag
-                     ORDER BY recipes.likes DESC";
-        $stmt = $db_conn->prepare($sqlRecipes);
-        $stmt->execute(['tag' => $tag]);
-        $sqlDataRecipes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        getTagData($db_conn, $sqlDataRecipes);
+
+        try {
+            $sqlRecipes = "SELECT recipes.*, writers.writerName 
+            FROM recipes
+            INNER JOIN writers ON recipes.writer_id = writers.id
+            INNER JOIN recipe_tags ON recipes.id = recipe_tags.recipe_id
+            INNER JOIN tags ON recipe_tags.tag_id = tags.id
+            WHERE tags.titel = :tag
+            ORDER BY recipes.likes DESC";
+            $stmt = $db_conn->prepare($sqlRecipes);
+            $stmt->execute(['tag' => $tag]);
+            $sqlDataRecipes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            getTagData($db_conn, $sqlDataRecipes);
+        } catch (PDOException $e) {
+            echo "Updating recipe failed: " . $e->getMessage();
+
+        }
+
     }
 
     }
@@ -92,7 +99,7 @@
             <!-- the 3 boxes containing filters by tag and by writer -->
             <div class="container mb-5">
                 <div class="row">
-                    <div class=" col-12 col-lg-4 border border-light-subtle p-2">
+                    <div class="col-12 col-lg-4 border border-light-subtle p-2">
                         <h3>Popular writers</h3>
                         <ul>
                             <?php foreach ($sqlCheffRecipes as $cheff) { ?>
@@ -100,26 +107,6 @@
                             <?php } ?>
                         </ul>
                     </div>
-
-                    <div class=" col-12 col-lg-4  border border-light-subtle p-2">
-                        <h3>Popular writers</h3>
-                        <ul>
-                            <?php foreach ($sqlCheffRecipes as $cheff) { ?>
-                                <li><?= $cheff[8]; ?></li>
-                            <?php } ?>
-                        </ul>
-                    </div>
-
-                    <div class=" col-12 col-lg-4  border border-light-subtle p-2">
-                        <h3>Popular writers</h3>
-                        <ul>
-                            <?php foreach ($sqlCheffRecipes as $cheff) { ?>
-                                <li><?= $cheff[8]; ?></li>
-                            <?php } ?>
-                        </ul>
-                    </div>
-                    
-
                 </div>
 
             </div>
@@ -181,7 +168,12 @@
                                 <div class="row ">
                                     <h5 class="recipe_title text-center col"><?= $recipe['titel']; ?></h2>
 
-                                    <form class="col" action="#" method="post">
+                                    <form class="col" action="./src/php_pages/edit_recipe.php" method="get">
+                                        <input type="hidden" name="recipe_id" value="<?= $recipe['id']; ?>">
+                                        <button class="text-bg-success bg-gradient border border-light-subtle" type="submit">Edit</button>
+                                    </form>
+
+                                    <form class="col" action="index.php" method="post">
                                         <input type="hidden" name="deleteRecipe" value="<?= $recipe['id']; ?>">
                                         <button class="text-bg-danger bg-gradient border border-light-subtle deleteRecipe" type="button" value="<?= $recipe['id']; ?>">Delete</button>
                                     </form>
@@ -193,7 +185,7 @@
                                         </form>
                                 </div>
                                 
-                                <span class="details text-light">Geschreven op: <?= $recipe['datum']; ?> door <b> <?= $recipe['writerName']; ?></b></span>
+                                <span class="details text-light">Written on: <?= $recipe['datum']; ?> by <b> <?= $recipe['writerName']; ?></b></span>
 
                                 <div class="container">
                                     <div class="row mt-2 mb-4 ml-0">
