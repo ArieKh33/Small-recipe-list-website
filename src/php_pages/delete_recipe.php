@@ -2,6 +2,7 @@
 
 require_once 'connection.php';
 
+// Check if the selected ID had its button pressed
 if (isset($_POST["recipe_id"])) {
     $id = $_POST["recipe_id"];
     $sql = "DELETE FROM recipes WHERE id = :id";

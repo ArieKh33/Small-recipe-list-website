@@ -108,6 +108,7 @@
             </div>
 
 
+        <!-- Run this script every time you add a like to the post -->
         <script>
             $(document).ready(function() {
                 $(".addlike").click(function(event) {
@@ -128,6 +129,8 @@
             });
         </script>
 
+
+        <!-- Run this script every time you delete a post without having to refresh the page -->
         <script>
             $(document).ready(function() {
                 $(".deleteRecipe").click(function(event) {
@@ -186,6 +189,7 @@
                                     
                                     <span class="details text-light">Written on: <?= $recipe['datum']; ?> by <b> <?= $recipe['writerName']; ?></b></span>
 
+                                    <!-- Here you load in every tag with a foreach loop -->
                                     <div class="container">
                                         <div class="row mt-2 mb-4 ml-0">
                                             <form class="col" action="index.php" method="get">
