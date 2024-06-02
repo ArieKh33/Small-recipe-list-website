@@ -131,30 +131,31 @@
                 });
             });
         </script>
-<script>
-    $(document).ready(function() {
-        $(".deleteRecipe").click(function(event) {
-            event.preventDefault();
-            var button = $(this);
-            var recipe_id = button.val();
-            var recipeDiv = button.closest('.recipe');
 
-            $.ajax({
-                type: "POST",
-                url: "src/php_pages/delete_recipe.php",
-                data: { recipe_id: recipe_id },
-                success: function(response) {
-                    var data = JSON.parse(response);
-                    if (data.success) {
-                        recipeDiv.remove();
-                    } else {
-                        alert('Failed to delete the recipe.');
-                    }
-                }
+        <script>
+            $(document).ready(function() {
+                $(".deleteRecipe").click(function(event) {
+                    event.preventDefault();
+                    var button = $(this);
+                    var recipe_id = button.val();
+                    var recipeDiv = button.closest('.recipe');
+
+                    $.ajax({
+                        type: "POST",
+                        url: "src/php_pages/delete_recipe.php",
+                        data: { recipe_id: recipe_id },
+                        success: function(response) {
+                            var data = JSON.parse(response);
+                            if (data.success) {
+                                recipeDiv.remove();
+                            } else {
+                                alert('Failed to delete the recipe.');
+                            }
+                        }
+                    });
+                });
             });
-        });
-    });
-</script>
+        </script>
 
 
             <!-- This container contains all the recipes -->
@@ -168,6 +169,8 @@
                                 <div class="row ">
                                     <h5 class="recipe_title text-center col"><?= $recipe['titel']; ?></h2>
 
+
+                                    <!-- NOTE: THE EDIT PAGE DOES NOT WORK FULLY YET, IT DISPLAYS THE CURRENT DATA BUT DOES NOT UPDATE IT, IT ONLY ADDS THE DATA TO A NEW POST -->
                                     <form class="col" action="./src/php_pages/edit_recipe.php" method="get">
                                         <input type="hidden" name="recipe_id" value="<?= $recipe['id']; ?>">
                                         <button class="text-bg-success bg-gradient border border-light-subtle" type="submit">Edit</button>
