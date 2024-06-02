@@ -3,8 +3,9 @@
 - [ ] Use "AJAX" for the website inputs
 - [ ] Think of a website name
 - [ ] Add an edit details page
-- [ ] Add a delete button for a recipe
+- [X] Add a delete button for a recipe
 - [ ] Add a delete button for a tag
+- [ ] Add an input file to add a new image
 
 
 ## Specific coded related changes

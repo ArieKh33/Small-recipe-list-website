@@ -4,7 +4,7 @@
 $servername = 'localhost';
 $username = 'bit_academy';
 $password = 'school2000';
-$database = 'foodblog';
+$database = 'many_recipes';
 
 // Use the data above to login into the database
 try {

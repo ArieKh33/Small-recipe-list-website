@@ -3,65 +3,65 @@
     ini_set('display_errors', 1);
     require_once './src/php_pages/connection.php';
 
-    // You join the likes from the posts to the artist.
-    function fetchPosts($db_conn, &$sqlDataPosts) {
-        $sqlDataPosts = [];
-        $sqlPosts = "SELECT posts.*, auteurs.naam FROM posts
-                     INNER JOIN auteurs ON posts.auteur_id = auteurs.id
-                     ORDER BY posts.likes DESC";
-        $sqlDataPosts = $db_conn->query($sqlPosts)->fetchall();
-        getTagData($db_conn, $sqlDataPosts);
+    // You join the likes from the recipes to the artist.
+    function fetchRecipes($db_conn, &$sqlDataRecipes) {
+        $sqlDataRecipes = [];
+        $sqlRecipes = "SELECT recipes.*, writers.naam FROM recipes
+                     INNER JOIN writers ON recipes.auteur_id = writers.id
+                     ORDER BY recipes.likes DESC";
+        $sqlDataRecipes = $db_conn->query($sqlRecipes)->fetchall();
+        getTagData($db_conn, $sqlDataRecipes);
     
     }
 
 
-    // You join the likes from the posts to the artist.
-    function fetchPostsByTag($db_conn,&$sqlDataPosts) {
+    // You join the likes from the recipes to the artist.
+    function fetchRecipesByTag($db_conn,&$sqlDataRecipes) {
     if (isset($_GET['tag'])) {
         $tag = $_GET['tag']; 
-        $sqlDataPosts = [];
-        $sqlPosts = "SELECT posts.*, auteurs.naam 
-                     FROM posts
-                     INNER JOIN auteurs ON posts.auteur_id = auteurs.id
-                     INNER JOIN posts_tags ON posts.id = posts_tags.post_id
-                     INNER JOIN tags ON posts_tags.tag_id = tags.id
+        $sqlDataRecipes = [];
+        $sqlRecipes = "SELECT recipes.*, writers.naam 
+                     FROM recipes
+                     INNER JOIN writers ON recipes.auteur_id = writers.id
+                     INNER JOIN recipes_tags ON recipes.id = recipes_tags.post_id
+                     INNER JOIN tags ON recipes_tags.tag_id = tags.id
                      WHERE tags.titel = :tag
-                     ORDER BY posts.likes DESC";
-        $stmt = $db_conn->prepare($sqlPosts);
+                     ORDER BY recipes.likes DESC";
+        $stmt = $db_conn->prepare($sqlRecipes);
         $stmt->execute(['tag' => $tag]);
-        $sqlDataPosts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        getTagData($db_conn, $sqlDataPosts);
+        $sqlDataRecipes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        getTagData($db_conn, $sqlDataRecipes);
     }
 
     }
 
 
-    // Whenever a cheff has posts total to 10 likes or more they get added to the "popular chefs" list.
-    function addPopularCheff($db_conn, &$sqlCheffPosts) {
-        $sqlCheffPosts = [];
-        $sqlChefs =  "SELECT * FROM posts INNER JOIN auteurs ON posts.auteur_id = auteurs.id GROUP BY auteur_id HAVING SUM(likes) > 10";
-        $sqlCheffPosts = $db_conn->query($sqlChefs)->fetchall();
+    // Whenever a cheff has recipes total to 10 likes or more they get added to the "popular chefs" list.
+    function addPopularCheff($db_conn, &$sqlCheffRecipes) {
+        $sqlCheffRecipes = [];
+        $sqlChefs =  "SELECT * FROM recipes INNER JOIN writers ON recipes.auteur_id = writers.id GROUP BY auteur_id HAVING SUM(likes) > 10";
+        $sqlCheffRecipes = $db_conn->query($sqlChefs)->fetchall();
     }
 
 
-    // Here you join the tags that are related to the posts.
-    function getTagData($db_conn, &$sqlDataPosts) {
-        foreach ($sqlDataPosts as $index => $post) {
+    // Here you join the tags that are related to the recipes.
+    function getTagData($db_conn, &$sqlDataRecipes) {
+        foreach ($sqlDataRecipes as $index => $post) {
             $sql = "SELECT tags.* FROM tags 
-                    INNER JOIN posts_tags pt ON pt.tag_id = tags.id 
+                    INNER JOIN recipes_tags pt ON pt.tag_id = tags.id 
                     WHERE pt.post_id = :id";
             $stmt = $db_conn->prepare($sql);
             $stmt->execute(['id' => $post['id']]);
-            $sqlDataPosts[$index]['tags'] = $stmt->fetchAll();
+            $sqlDataRecipes[$index]['tags'] = $stmt->fetchAll();
         }
     }
 
 
 
     // Here you call all the functions.
-    fetchPosts($db_conn,$sqlDataPosts);
-    addPopularCheff($db_conn, $sqlCheffPosts);
-    fetchPostsByTag($db_conn, $sqlDataPosts);
+    fetchRecipes($db_conn,$sqlDataRecipes);
+    addPopularCheff($db_conn, $sqlCheffRecipes);
+    fetchRecipesByTag($db_conn, $sqlDataRecipes);
 
 ?>
 <!DOCTYPE html>
@@ -95,7 +95,7 @@
                     <div class=" col-12 col-lg-4 border border-light-subtle p-2">
                         <h3>Populaire chefs</h3>
                         <ul>
-                            <?php foreach ($sqlCheffPosts as $cheff) { ?>
+                            <?php foreach ($sqlCheffRecipes as $cheff) { ?>
                                 <li><?= $cheff[8]; ?></li>
                             <?php } ?>
                         </ul>
@@ -104,7 +104,7 @@
                     <div class=" col-12 col-lg-4  border border-light-subtle p-2">
                         <h3>Populaire chefs</h3>
                         <ul>
-                            <?php foreach ($sqlCheffPosts as $cheff) { ?>
+                            <?php foreach ($sqlCheffRecipes as $cheff) { ?>
                                 <li><?= $cheff[8]; ?></li>
                             <?php } ?>
                         </ul>
@@ -113,7 +113,7 @@
                     <div class=" col-12 col-lg-4  border border-light-subtle p-2">
                         <h3>Populaire chefs</h3>
                         <ul>
-                            <?php foreach ($sqlCheffPosts as $cheff) { ?>
+                            <?php foreach ($sqlCheffRecipes as $cheff) { ?>
                                 <li><?= $cheff[8]; ?></li>
                             <?php } ?>
                         </ul>
@@ -170,10 +170,10 @@
 </script>
 
 
-            <!-- This container contains all the posts -->
+            <!-- This container contains all the recipes -->
             <div id="recipes" class="container">
                 <div class="row">
-                    <?php foreach ($sqlDataPosts as $post) { ?>
+                    <?php foreach ($sqlDataRecipes as $post) { ?>
                         <div class="post card bg-black bg-gradient border border-light-subtle col-12 col-md-6 col-lg-4 mb-3 rounded-0">
                             <img class="border border-light-subtle" src="<?= $post['img_url']; ?>" alt="<?= $post['titel']; ?>">
 
