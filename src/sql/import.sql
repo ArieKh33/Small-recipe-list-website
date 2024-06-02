@@ -12,15 +12,15 @@ CREATE TABLE writers (
 );
 
 CREATE TABLE recipes (
-    id int NOT NULL AUTO_INCREMENT,
+    id int NOT NULL UNIQUE  AUTO_INCREMENT,
     titel varchar(64),
     datum datetime,
     likes int,
-    auteur_id int NOT NULL,
+    writer_id int NOT NULL,
     img_url varchar(256),
     inhoud text,
     PRIMARY KEY(id),
-    FOREIGN KEY (auteur_id) REFERENCES writers(id)
+    FOREIGN KEY (writer_id) REFERENCES writers(id)
 );
 
 CREATE TABLE tags (
@@ -30,9 +30,9 @@ CREATE TABLE tags (
 );
 
 CREATE TABLE recipe_tags (
-    post_id int,
+    recipe_id int,
     tag_id int,
-    FOREIGN KEY (post_id) REFERENCES recipes(id),
+    FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE,
     FOREIGN KEY (tag_id) REFERENCES tags(id)
 );
 

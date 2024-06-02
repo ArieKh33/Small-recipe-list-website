@@ -1,3 +1,55 @@
+<?php 
+
+require_once 'connection.php';
+
+// Get the current date and time for post
+$dateWritten = date("Y/m/d h:i:s");
+
+if (isset($_POST["submit"])) {
+    $titel = $_POST["titel"];
+    $writer_id = $_POST["writers"];
+    // Strip the tags and make them lower case
+    $tags = array_map('strtolower', array_map('trim', explode(',', $_POST["tags"])));
+    $inhoud = $_POST["inhoud"];
+    $foto = $_POST["img_url"];
+
+    // Add the recipe into the table
+    try {
+        $sql = 'INSERT INTO recipes(titel, writer_id, datum, img_url, inhoud, likes) VALUES (:titel, :writer_id, :datum, :img_url,  :inhoud, 0)';
+        $stmt = $db_conn->prepare($sql);
+        $stmt->execute(['titel' => $titel, 'writer_id' => $writer_id, 'datum' => $dateWritten,'img_url' => $foto ,'inhoud' => $inhoud]);
+        $recipe_id = $db_conn->lastInsertId();
+    } catch (PDOException $e) {
+        echo "Adding recipe failed" . $e->getMessage();
+    }
+
+    // Add the tags
+    foreach ($tags as $tag) {
+        try {
+            // Try to add the tags into the list of tags.
+            $sql = 'INSERT INTO tags(titel) VALUES (:titel)';
+            $stmt = $db_conn->prepare($sql);
+            $stmt->execute(['titel' => $tag]);
+            $tag_id = [$db_conn->lastInsertId()];
+        } catch (PDOException $e) {
+            // If the tag already exists, add only the ID.
+            $sql = 'SELECT id FROM tags WHERE titel=:titel';
+            $stmt = $db_conn->prepare($sql);
+            $stmt->execute(['titel' => $tag]);
+            $tag_id = $stmt->fetch();
+        }
+
+        $sql = 'INSERT INTO recipe_tags(recipe_id, tag_id) VALUES (:recipe_id, :tag_id)';
+        $stmt = $db_conn->prepare($sql);
+        $stmt->execute(['recipe_id' => $recipe_id, 'tag_id' => $tag_id[0]]);
+    }
+
+
+    header("Location: ../../index.php");
+    exit();
+}
+
+?>
 <html>
     <head>
         <title>New recipe</title>
@@ -16,57 +68,9 @@
             
         <div class="header container" >
                 <h1 class=" mt-4"><a href="../../index.php" class=" text-decoration-none text-light">The best list of recipes</a></h1>
-                <h2>New Post</h2>
+                <h2>New Recipe</h2>
             </div>
 
-            <?php
-            require_once 'connection.php';
-            $dateWritten = date("Y/m/d h:i:s");
-            
-            if (isset($_POST["submit"])) {
-                $titel = $_POST["titel"];
-                $auteur_id = $_POST["writers"];
-                // Strip the tags and make them lower case
-                $tags = array_map('strtolower', array_map('trim', explode(',', $_POST["tags"])));
-                $inhoud = $_POST["inhoud"];
-                $foto = $_POST["img_url"];
-
-                // Add the post into the table
-                try {
-                    $sql = 'INSERT INTO recipes(titel, auteur_id, datum, img_url, inhoud, likes) VALUES (:titel, :auteur_id, :datum, :img_url,  :inhoud, 0)';
-                    $stmt = $db_conn->prepare($sql);
-                    $stmt->execute(['titel' => $titel, 'auteur_id' => $auteur_id, 'datum' => $dateWritten,'img_url' => $foto ,'inhoud' => $inhoud]);
-                    $post_id = $db_conn->lastInsertId();
-                } catch (PDOException $e) {
-                    echo "Adding recipe failed" . $e->getMessage();
-                }
-
-                // Add the tags
-                foreach ($tags as $tag) {
-                    try {
-                        // Try to add the tags into the list of tags.
-                        $sql = 'INSERT INTO tags(titel) VALUES (:titel)';
-                        $stmt = $db_conn->prepare($sql);
-                        $stmt->execute(['titel' => $tag]);
-                        $tag_id = [$db_conn->lastInsertId()];
-                    } catch (PDOException $e) {
-                        // If the tag already exists, add only the ID.
-                        $sql = 'SELECT id FROM tags WHERE titel=:titel';
-                        $stmt = $db_conn->prepare($sql);
-                        $stmt->execute(['titel' => $tag]);
-                        $tag_id = $stmt->fetch();
-                    }
-
-                    $sql = 'INSERT INTO recipe_tags(post_id, tag_id) VALUES (:post_id, :tag_id)';
-                    $stmt = $db_conn->prepare($sql);
-                    $stmt->execute(['post_id' => $post_id, 'tag_id' => $tag_id[0]]);
-                }
-
-            
-                header("Location: ../../index.php");
-                exit();
-            }
-                ?>
                     <!-- Here is the menu with all the data required -->
                 <form class="container" action="new_recipe.php" method="post">
 

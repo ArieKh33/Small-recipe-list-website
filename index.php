@@ -6,8 +6,8 @@
     // You join the likes from the recipes to the artist.
     function fetchRecipes($db_conn, &$sqlDataRecipes) {
         $sqlDataRecipes = [];
-        $sqlRecipes = "SELECT recipes.*, writers.naam FROM recipes
-                     INNER JOIN writers ON recipes.auteur_id = writers.id
+        $sqlRecipes = "SELECT recipes.*, writers.writerName FROM recipes
+                     INNER JOIN writers ON recipes.writer_id = writers.id
                      ORDER BY recipes.likes DESC";
         $sqlDataRecipes = $db_conn->query($sqlRecipes)->fetchall();
         getTagData($db_conn, $sqlDataRecipes);
@@ -20,11 +20,11 @@
     if (isset($_GET['tag'])) {
         $tag = $_GET['tag']; 
         $sqlDataRecipes = [];
-        $sqlRecipes = "SELECT recipes.*, writers.naam 
+        $sqlRecipes = "SELECT recipes.*, writers.writerName 
                      FROM recipes
-                     INNER JOIN writers ON recipes.auteur_id = writers.id
-                     INNER JOIN recipes_tags ON recipes.id = recipes_tags.post_id
-                     INNER JOIN tags ON recipes_tags.tag_id = tags.id
+                     INNER JOIN writers ON recipes.writer_id = writers.id
+                     INNER JOIN recipe_tags ON recipes.id = recipe_tags.recipe_id
+                     INNER JOIN tags ON recipe_tags.tag_id = tags.id
                      WHERE tags.titel = :tag
                      ORDER BY recipes.likes DESC";
         $stmt = $db_conn->prepare($sqlRecipes);
@@ -39,19 +39,19 @@
     // Whenever a cheff has recipes total to 10 likes or more they get added to the "popular chefs" list.
     function addPopularCheff($db_conn, &$sqlCheffRecipes) {
         $sqlCheffRecipes = [];
-        $sqlChefs =  "SELECT * FROM recipes INNER JOIN writers ON recipes.auteur_id = writers.id GROUP BY auteur_id HAVING SUM(likes) > 10";
+        $sqlChefs =  "SELECT * FROM recipes INNER JOIN writers ON recipes.writer_id = writers.id GROUP BY writer_id HAVING SUM(likes) > 10";
         $sqlCheffRecipes = $db_conn->query($sqlChefs)->fetchall();
     }
 
 
     // Here you join the tags that are related to the recipes.
     function getTagData($db_conn, &$sqlDataRecipes) {
-        foreach ($sqlDataRecipes as $index => $post) {
+        foreach ($sqlDataRecipes as $index => $recipe) {
             $sql = "SELECT tags.* FROM tags 
-                    INNER JOIN recipes_tags pt ON pt.tag_id = tags.id 
-                    WHERE pt.post_id = :id";
+                    INNER JOIN recipe_tags pt ON pt.tag_id = tags.id 
+                    WHERE pt.recipe_id = :id";
             $stmt = $db_conn->prepare($sql);
-            $stmt->execute(['id' => $post['id']]);
+            $stmt->execute(['id' => $recipe['id']]);
             $sqlDataRecipes[$index]['tags'] = $stmt->fetchAll();
         }
     }
@@ -86,14 +86,14 @@
 
             <div class="header container" >
                 <h1 class=" mt-4"><a href="index.php" class=" text-decoration-none text-light">The best list of recipes</a></h1>
-                <h3><a class="text-decoration-none text-light" href="./src/php_pages/new_recipe.php">New post</a></h3>
+                <h3><a class="text-decoration-none text-light" href="./src/php_pages/new_recipe.php">New recipe</a></h3>
             </div>
             
             <!-- the 3 boxes containing filters by tag and by writer -->
             <div class="container mb-5">
                 <div class="row">
                     <div class=" col-12 col-lg-4 border border-light-subtle p-2">
-                        <h3>Populaire chefs</h3>
+                        <h3>Popular writers</h3>
                         <ul>
                             <?php foreach ($sqlCheffRecipes as $cheff) { ?>
                                 <li><?= $cheff[8]; ?></li>
@@ -102,7 +102,7 @@
                     </div>
 
                     <div class=" col-12 col-lg-4  border border-light-subtle p-2">
-                        <h3>Populaire chefs</h3>
+                        <h3>Popular writers</h3>
                         <ul>
                             <?php foreach ($sqlCheffRecipes as $cheff) { ?>
                                 <li><?= $cheff[8]; ?></li>
@@ -111,7 +111,7 @@
                     </div>
 
                     <div class=" col-12 col-lg-4  border border-light-subtle p-2">
-                        <h3>Populaire chefs</h3>
+                        <h3>Popular writers</h3>
                         <ul>
                             <?php foreach ($sqlCheffRecipes as $cheff) { ?>
                                 <li><?= $cheff[8]; ?></li>
@@ -130,12 +130,12 @@
                 $(".addlike").click(function(event) {
                     event.preventDefault();
                     const button = $(this);
-                    const post_id = button.val();
+                    const recipe_id = button.val();
 
                     $.ajax({
                         type: "POST",
                         url: "src/php_pages/load_Likes.php",
-                        data: { post_id: post_id },
+                        data: { recipe_id: recipe_id },
                         success: function(response) {
                             const data = JSON.parse(response);
                             button.text(data.likes + ' likes');
@@ -149,19 +149,19 @@
         $(".deleteRecipe").click(function(event) {
             event.preventDefault();
             var button = $(this);
-            var post_id = button.val();
-            var postDiv = button.closest('.post');
+            var recipe_id = button.val();
+            var recipeDiv = button.closest('.recipe');
 
             $.ajax({
                 type: "POST",
                 url: "src/php_pages/delete_recipe.php",
-                data: { post_id: post_id },
+                data: { recipe_id: recipe_id },
                 success: function(response) {
                     var data = JSON.parse(response);
                     if (data.success) {
-                        postDiv.remove();
+                        recipeDiv.remove();
                     } else {
-                        alert('Failed to delete the post.');
+                        alert('Failed to delete the recipe.');
                     }
                 }
             });
@@ -173,32 +173,32 @@
             <!-- This container contains all the recipes -->
             <div id="recipes" class="container">
                 <div class="row">
-                    <?php foreach ($sqlDataRecipes as $post) { ?>
-                        <div class="post card bg-black bg-gradient border border-light-subtle col-12 col-md-6 col-lg-4 mb-3 rounded-0">
-                            <img class="border border-light-subtle" src="<?= $post['img_url']; ?>" alt="<?= $post['titel']; ?>">
+                    <?php foreach ($sqlDataRecipes as $recipe) { ?>
+                        <div class="recipe card bg-black bg-gradient border border-light-subtle col-12 col-md-6 col-lg-4 mb-3 rounded-0">
+                            <img class="border border-light-subtle" src="<?= $recipe['img_url']; ?>" alt="<?= $recipe['titel']; ?>">
 
                             <div class="card-body m-1">
                                 <div class="row ">
-                                    <h5 class="post_title text-center col"><?= $post['titel']; ?></h2>
+                                    <h5 class="recipe_title text-center col"><?= $recipe['titel']; ?></h2>
 
                                     <form class="col" action="#" method="post">
-                                        <input type="hidden" name="deleteRecipe" value="<?= $post['id']; ?>">
-                                        <button class="text-bg-danger bg-gradient border border-light-subtle deleteRecipe" type="button" value="<?= $post['id']; ?>">Delete</button>
+                                        <input type="hidden" name="deleteRecipe" value="<?= $recipe['id']; ?>">
+                                        <button class="text-bg-danger bg-gradient border border-light-subtle deleteRecipe" type="button" value="<?= $recipe['id']; ?>">Delete</button>
                                     </form>
 
                                     <form class="col" action="index.php" method="post">
-                                            <button class="text-bg-primary border-light-subtle addlike" type="submit" value="<?= $post['id']; ?>" name="like">
-                                                <?= $post['likes']; ?> likes
+                                            <button class="text-bg-primary border-light-subtle addlike" type="submit" value="<?= $recipe['id']; ?>" name="like">
+                                                <?= $recipe['likes']; ?> likes
                                             </button>
                                         </form>
                                 </div>
                                 
-                                <span class="details text-light">Geschreven op: <?= $post['datum']; ?> door <b> <?= $post['naam']; ?></b></span>
+                                <span class="details text-light">Geschreven op: <?= $recipe['datum']; ?> door <b> <?= $recipe['writerName']; ?></b></span>
 
                                 <div class="container">
                                     <div class="row mt-2 mb-4 ml-0">
                                         <form class="col" action="index.php" method="get">
-                                            <?php foreach ($post['tags'] as $tag) { ?>
+                                            <?php foreach ($recipe['tags'] as $tag) { ?>
                                                 <button type="submit" value="<?=$tag['titel']; ?>" name="tag">
                                                     <?= $tag['titel']; ?> 
                                                 </button>
@@ -210,7 +210,7 @@
                                 </div>
                                 
 
-                                <p class="inhoud border border-light-subtle  text-light p-2"><?= $post['inhoud']; ?></p>
+                                <p class="inhoud border border-light-subtle  text-light p-2"><?= $recipe['inhoud']; ?></p>
 
                             </div>
                             

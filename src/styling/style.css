@@ -8,7 +8,7 @@ img {
     object-fit: cover;
 }
 
-.post_title {
+.recipe_title {
     color: rgb(213, 217, 219);
     border: solid;
     text-transform: uppercase;
