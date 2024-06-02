@@ -1,6 +1,4 @@
 <?php
-    error_reporting(E_ALL);
-    ini_set('display_errors', 1);
     require_once './src/php_pages/connection.php';
 
     // You join the likes from the recipes to the artist.
@@ -23,12 +21,12 @@
 
         try {
             $sqlRecipes = "SELECT recipes.*, writers.writerName 
-            FROM recipes
-            INNER JOIN writers ON recipes.writer_id = writers.id
-            INNER JOIN recipe_tags ON recipes.id = recipe_tags.recipe_id
-            INNER JOIN tags ON recipe_tags.tag_id = tags.id
-            WHERE tags.titel = :tag
-            ORDER BY recipes.likes DESC";
+                FROM recipes
+                INNER JOIN writers ON recipes.writer_id = writers.id
+                INNER JOIN recipe_tags ON recipes.id = recipe_tags.recipe_id
+                INNER JOIN tags ON recipe_tags.tag_id = tags.id
+                WHERE tags.titel = :tag
+                ORDER BY recipes.likes DESC";
             $stmt = $db_conn->prepare($sqlRecipes);
             $stmt->execute(['tag' => $tag]);
             $sqlDataRecipes = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -37,9 +35,7 @@
             echo "Updating recipe failed: " . $e->getMessage();
 
         }
-
     }
-
     }
 
 
@@ -91,13 +87,13 @@
     </head>
     <body class="bg-black text-light">
 
-            <div class="header container" >
-                <h1 class=" mt-4"><a href="index.php" class=" text-decoration-none text-light">The best list of recipes</a></h1>
-                <h3><a class="text-decoration-none text-light" href="./src/php_pages/new_recipe.php">New recipe</a></h3>
+            <div class="container mb-5  mt-4" >
+                <h1 class="mb-3"><a href="index.php" class=" text-decoration-none text-light">The best list of recipes</a></h1>
+                <h3><a class="text-decoration-none text-light border border-light p-2" href="./src/php_pages/new_recipe.php">New recipe?</a></h3>
             </div>
             
             <!-- the 3 boxes containing filters by tag and by writer -->
-            <div class="container mb-5">
+            <div class="container mb-4">
                 <div class="row">
                     <div class="col-12 col-lg-4 border border-light-subtle p-2">
                         <h3>Popular writers</h3>
@@ -165,55 +161,51 @@
                         <div class="recipe card bg-black bg-gradient border border-light-subtle col-12 col-md-6 col-lg-4 mb-3 rounded-0">
                             <img class="border border-light-subtle" src="<?= $recipe['img_url']; ?>" alt="<?= $recipe['titel']; ?>">
 
-                            <div class="card-body m-1">
-                                <div class="row ">
-                                    <h5 class="recipe_title text-center col"><?= $recipe['titel']; ?></h2>
+                                <div class="card-body m-1">
+                                    <div class="row ">
+                                        <h5 class="recipe_title text-center col"><?= $recipe['titel']; ?></h2>
 
 
-                                    <!-- NOTE: THE EDIT PAGE DOES NOT WORK FULLY YET, IT DISPLAYS THE CURRENT DATA BUT DOES NOT UPDATE IT, IT ONLY ADDS THE DATA TO A NEW POST -->
-                                    <form class="col" action="./src/php_pages/edit_recipe.php" method="get">
-                                        <input type="hidden" name="recipe_id" value="<?= $recipe['id']; ?>">
-                                        <button class="text-bg-success bg-gradient border border-light-subtle" type="submit">Edit</button>
-                                    </form>
+                                        <!-- NOTE: THE EDIT PAGE DOES NOT WORK FULLY YET, IT DISPLAYS THE CURRENT DATA BUT DOES NOT UPDATE IT, IT ONLY ADDS THE DATA TO A NEW POST -->
+                                        <!-- <form class="col" action="./src/php_pages/edit_recipe.php" method="get">
+                                            <input type="hidden" name="recipe_id" value="<?= $recipe['id']; ?>">
+                                            <button class="text-bg-success bg-gradient border border-light-subtle" type="submit">Edit</button>
+                                        </form> -->
 
-                                    <form class="col" action="index.php" method="post">
-                                        <input type="hidden" name="deleteRecipe" value="<?= $recipe['id']; ?>">
-                                        <button class="text-bg-danger bg-gradient border border-light-subtle deleteRecipe" type="button" value="<?= $recipe['id']; ?>">Delete</button>
-                                    </form>
-
-                                    <form class="col" action="index.php" method="post">
-                                            <button class="text-bg-primary border-light-subtle addlike" type="submit" value="<?= $recipe['id']; ?>" name="like">
-                                                <?= $recipe['likes']; ?> likes
-                                            </button>
+                                        <form class="col" action="index.php" method="post">
+                                            <input type="hidden" name="deleteRecipe" value="<?= $recipe['id']; ?>">
+                                            <button class="text-bg-danger bg-gradient border border-light-subtle deleteRecipe" type="button" value="<?= $recipe['id']; ?>">Delete</button>
                                         </form>
-                                </div>
-                                
-                                <span class="details text-light">Written on: <?= $recipe['datum']; ?> by <b> <?= $recipe['writerName']; ?></b></span>
 
-                                <div class="container">
-                                    <div class="row mt-2 mb-4 ml-0">
-                                        <form class="col" action="index.php" method="get">
-                                            <?php foreach ($recipe['tags'] as $tag) { ?>
-                                                <button type="submit" value="<?=$tag['titel']; ?>" name="tag">
-                                                    <?= $tag['titel']; ?> 
+                                        <form class="col" action="index.php" method="post">
+                                                <button class="text-bg-primary border-light-subtle addlike" type="submit" value="<?= $recipe['id']; ?>" name="like">
+                                                    <?= $recipe['likes']; ?> likes
                                                 </button>
-                                            <?php } ?>
-                                        </form>
-
-
+                                            </form>
                                     </div>
+                                    
+                                    <span class="details text-light">Written on: <?= $recipe['datum']; ?> by <b> <?= $recipe['writerName']; ?></b></span>
+
+                                    <div class="container">
+                                        <div class="row mt-2 mb-4 ml-0">
+                                            <form class="col" action="index.php" method="get">
+                                                <?php foreach ($recipe['tags'] as $tag) { ?>
+                                                    <button type="submit" value="<?=$tag['titel']; ?>" name="tag">
+                                                        <?= $tag['titel']; ?> 
+                                                    </button>
+                                                <?php } ?>
+                                            </form>
+
+
+                                        </div>
+                                    </div>
+                                    
+                                    <p class="inhoud border border-light-subtle  text-light p-2"><?= $recipe['inhoud']; ?></p>
+
                                 </div>
-                                
-
-                                <p class="inhoud border border-light-subtle  text-light p-2"><?= $recipe['inhoud']; ?></p>
-
                             </div>
-                            
-                        </div>
-                        
-                    <?php } ?>
+                        <?php } ?>
                 </div>
-
             </div>      
     </body>
 </html>

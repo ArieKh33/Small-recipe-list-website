@@ -2,8 +2,6 @@
 
 require_once 'connection.php';
 
-// Fetch the recipe ID from the GET request
-echo $_GET["recipe_id"] . "test data";
 $recipe_id = $_GET["recipe_id"] ?? null;
 
 // Initialize variables
@@ -46,7 +44,6 @@ if (isset($_POST["submit"])) {
     $foto = $_POST["img_url"];
     $dateWritten = date("Y/m/d h:i:s");
 
-    // Check if recipe_id exists to determine if we're updating or adding a new recipe
     if (!empty($recipe_id)) {
         // Update the existing recipe
         try {
@@ -75,6 +72,7 @@ if (isset($_POST["submit"])) {
     } else {
         // Handle the case where recipe_id is not set
         echo "No recipe ID provided for update.";
+        return;
     }
 
     // Add the tags.

@@ -66,9 +66,9 @@ if (isset($_POST["submit"])) {
     <!-- NOTE: This page mainly needs a styling update since it doesn't align with the other pages yet. -->
         <div class="container">
             
-        <div class="header container" >
-                <h1 class=" mt-4"><a href="../../index.php" class=" text-decoration-none text-light">The best list of recipes</a></h1>
-                <h2>New Recipe</h2>
+        <div class="container mb-5  mt-4" >
+                <h1 class="mb-3"><a href="index.php" class=" text-decoration-none text-light">The best list of recipes</a></h1>
+                <h3><a class="text-decoration-none text-light border border-light p-2" href="./src/php_pages/new_recipe.php">New recipe?</a></h3>
             </div>
 
                     <!-- Here is the menu with all the data required -->
