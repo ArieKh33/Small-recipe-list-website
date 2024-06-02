@@ -12,8 +12,7 @@ img {
     color: rgb(213, 217, 219);
     border: solid;
     text-transform: uppercase;
-    /* font-size: 1.5vw; */
-    width: 15vw;
+    /* width: 15vw; */
 }
 
 .inhoud {
@@ -25,7 +24,6 @@ img {
 
 span.details {
     margin: 2px;
-    font-size: 1vw;
     font-style: italic;
     display: block;
 }

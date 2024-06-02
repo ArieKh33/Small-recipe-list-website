@@ -67,48 +67,52 @@ if (isset($_POST["submit"])) {
         <div class="container">
             
         <div class="container mb-5  mt-4" >
-                <h1 class="mb-3"><a href="index.php" class=" text-decoration-none text-light">The best list of recipes</a></h1>
+                <h1 class="mb-3"><a href="../../index.php" class=" text-decoration-none text-light">The best list of recipes</a></h1>
                 <h3><a class="text-decoration-none text-light border border-light p-2" href="./src/php_pages/new_recipe.php">New recipe?</a></h3>
             </div>
 
                     <!-- Here is the menu with all the data required -->
                 <form class="container" action="new_recipe.php" method="post">
 
-                <div class="col">
+                    <div class="col">
 
-                    <div class="d-flex flex-column mt-3 w-25">
-                        <label for="titel">Title:</label>
-                        <input type="text" name="titel">
-                    </div>
-                        
-                    <div class="d-flex flex-column mt-3 w-25">
-                        <label for="writers">Writers:</label>
-                        <select name="writers">
-                            <option value="1">Mounir Toub</option>
-                            <option value="2">Miljuschka</option>
-                            <option value="3">Wim Ballieu</option>
-                        </select>
-                    </div>
-                        
-                    <div class="d-flex flex-column mt-3 w-50">
-                        <label for="tags">Tags, (split by each comma)</label>
-                        <input type="text" name="tags">  
-                    </div>
+                        <div class="d-flex flex-column mt-3 w-25">
+                            <label for="titel">Title:</label>
+                            <input type="text" name="titel">
+                        </div>
+                            
+                        <div class="d-flex flex-column mt-3 w-25">
+                            <label for="writers">Writers:</label>
+                            <select name="writers">
+                                <option value="1">Mounir Toub</option>
+                                <option value="2">Miljuschka</option>
+                                <option value="3">Wim Ballieu</option>
+                            </select>
+                        </div>
+                            
+                        <div class="d-flex flex-column mt-3 w-50">
+                            <label for="tags">Tags, (split by each comma)</label>
+                            <input type="text" name="tags">  
+                        </div>
 
-                    <div class="d-flex flex-column mt-3 w-50">
-                        <label for="img_url">URL image:</label>
-                        <input type="text" name="img_url" id="img_url">
-                    </div>
+                        <div class="d-flex flex-column mt-3 w-50">
+                            <label for="img_url">URL image:</label>
+                            <input type="text" name="img_url" id="img_url">
+                        </div>
 
-                    <div class="d-flex flex-column my-3">
-                        <label for="inhoud">Content:</label>
-                        <textarea name="inhoud" rows="10" cols="100"></textarea>
-                    </div>
-                        
+                        <div class="d-flex flex-column my-3">
+                            <label for="inhoud">Content:</label>
+                            <textarea name="inhoud" rows="10" cols="100"></textarea>
+                        </div>
 
-                    <input class="text-bg-success p-2 border-white" type="submit" name="submit" value="Publish">
-                </div>
+                        <input class="text-bg-success p-2 border-white mb-5" type="submit" name="submit" value="Publish">
+
+                    </div>
                 </form>
+
+                <div class="container">
+                    <a class="text-bg-info p-3 border border-white text-decoration-none text-white" href="../../index.php">Back to home page</a>
+                </div>
         </div>
     </body>
 </html>

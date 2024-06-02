@@ -18,6 +18,7 @@
     if (isset($_GET['tag'])) {
         $tag = $_GET['tag']; 
         $sqlDataRecipes = [];
+        
 
         try {
             $sqlRecipes = "SELECT recipes.*, writers.writerName 
@@ -89,13 +90,14 @@
 
             <div class="container mb-5  mt-4" >
                 <h1 class="mb-3"><a href="index.php" class=" text-decoration-none text-light">The best list of recipes</a></h1>
+                <h2 class="mb-4">Selected tag: <?php if (isset($_GET['tag'])) {echo $_GET['tag'];} else {echo "None";} ?></h2>
                 <h3><a class="text-decoration-none text-light border border-light p-2" href="./src/php_pages/new_recipe.php">New recipe?</a></h3>
             </div>
             
             <!-- the 3 boxes containing filters by tag and by writer -->
             <div class="container mb-4">
                 <div class="row">
-                    <div class="col-12 col-lg-4 border border-light-subtle p-2">
+                    <div class="col col-12 col-lg-4 border border-light-subtle p-2">
                         <h3>Popular writers</h3>
                         <ul>
                             <?php foreach ($sqlCheffRecipes as $cheff) { ?>
@@ -193,8 +195,9 @@
                                     <div class="container">
                                         <div class="row mt-2 mb-4 ml-0">
                                             <form class="col" action="index.php" method="get">
+                                                <label class="text-white">Tags: </label>
                                                 <?php foreach ($recipe['tags'] as $tag) { ?>
-                                                    <button type="submit" value="<?=$tag['titel']; ?>" name="tag">
+                                                    <button class="bg-black text-white border border-light light" type="submit" value="<?=$tag['titel']; ?>" name="tag">
                                                         <?= $tag['titel']; ?> 
                                                     </button>
                                                 <?php } ?>
