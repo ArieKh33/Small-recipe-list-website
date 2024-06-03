@@ -36,7 +36,7 @@ if ($recipe_id) {
 }
 
 if (isset($_POST["submit"])) {
-    $recipe_id = $_GET["recipe_id"] ?? null;
+    $recipe_id = $_POST["recipe_id"];
     $titel = $_POST["titel"];
     $writer_id = $_POST["writers"];
     $tags = array_map('strtolower', array_map('trim', explode(',', $_POST["tags"])));
@@ -95,6 +95,10 @@ if (isset($_POST["submit"])) {
         $stmt = $db_conn->prepare($sql);
         $stmt->execute(['recipe_id' => $recipe_id, 'tag_id' => $tag_id]);
     }
+
+    // Return to the main page
+    header("Location: ../../index.php");
+    exit();
 }
 
 ?>
@@ -113,47 +117,47 @@ if (isset($_POST["submit"])) {
 
         <div class="container">            
         <div class="header container" >
-                <h1 class=" mt-4"><a href="../../index.php" class=" text-decoration-none text-light">The best list of recipes</a></h1>
-                <h2>New Recipe</h2>
-            </div>
-
-                    <!-- Here is the menu with all the data required -->
-                    <form class="container" action="new_recipe.php" method="post">
-    <input type="hidden" name="recipe_id" value="<?= $recipe['id']; ?>">
-
-    <div class="col">
-        <div class="d-flex flex-column mt-3 w-25">
-            <label for="titel">Title:</label>
-            <input type="text" id="titel" name="titel" value="<?= $recipe['titel']; ?>">
+            <h1 class=" mt-4"><a href="../../index.php" class=" text-decoration-none text-light">The best list of recipes</a></h1>
+            <h2>New Recipe</h2>
         </div>
-        
-        <div class="d-flex flex-column mt-3 w-25">
-            <label for="writers">Writers:</label>
-            <select name="writers">
+
+            <!-- Here is the menu with all the data required -->
+            <form class="container" action="edit_recipe.php" method="post">
+                <input type="hidden" name="recipe_id" value="<?= $recipe['id']; ?>">
+
+                <div class="col">
+                    <div class="d-flex flex-column mt-3 w-25">
+                        <label for="titel">Title:</label>
+                        <input type="text" id="titel" name="titel" value="<?= $recipe['titel']; ?>">
+                    </div>
+                            
+                    <div class="d-flex flex-column mt-3 w-25">
+                        <label for="writers">Writers:</label>
+                        <select name="writers">
                             <option value="1">Mounir Toub</option>
                             <option value="2">Miljuschka</option>
                             <option value="3">Wim Ballieu</option>
-            </select>
-        </div>
-        
-        <div class="d-flex flex-column mt-3 w-50">
-            <label for="tags">Tags, (split by each comma)</label>
-            <input type="text" id="tags" name="tags" value="<?= implode(', ', $current_tags); ?>">
-        </div>
+                        </select>
+                    </div>
+                            
+                    <div class="d-flex flex-column mt-3 w-50">
+                        <label for="tags">Tags, (split by each comma)</label>
+                        <input type="text" id="tags" name="tags" value="<?= implode(', ', $current_tags); ?>">
+                    </div>
 
-        <div class="d-flex flex-column mt-3 w-50">
-            <label for="img_url">URL image:</label>
-            <input type="text" id="img_url" name="img_url" value="<?= $recipe['img_url']; ?>">
-        </div>
+                    <div class="d-flex flex-column mt-3 w-50">
+                        <label for="img_url">URL image:</label>
+                        <input type="text" id="img_url" name="img_url" value="<?= $recipe['img_url']; ?>">
+                    </div>
 
-        <div class="d-flex flex-column my-3">
-            <label for="inhoud">Content:</label>
-            <textarea id="inhoud" name="inhoud" rows="10" cols="100"><?= $recipe['inhoud']; ?></textarea>
-        </div>
-        
-        <input class="text-bg-success p-2 border-white" type="submit" name="submit" value="Publish">
-    </div>
-</form>
+                    <div class="d-flex flex-column my-3">
+                        <label for="inhoud">Content:</label>
+                        <textarea id="inhoud" name="inhoud" rows="10" cols="100"><?= $recipe['inhoud']; ?></textarea>
+                    </div>
+                            
+                    <input class="text-bg-success p-2 border-white" type="submit" name="submit" value="Publish">
+                </div>
+            </form>
         </div>
     </body>
 </html>

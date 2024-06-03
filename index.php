@@ -178,12 +178,12 @@
 
                                         <form class="col" action="index.php" method="post">
                                             <input type="hidden" name="deleteRecipe" value="<?= $recipe['id']; ?>">
-                                            <button class="text-bg-danger bg-gradient border border-light-subtle deleteRecipe" type="button" value="<?= $recipe['id']; ?>">Delete</button>
+                                            <button class="btn btn-danger deleteRecipe" type="button" value="<?= $recipe['id']; ?>">Delete</button>
                                         </form>
 
                                         <form class="col" action="index.php" method="post">
                                                 <button class="text-bg-primary border-light-subtle addlike" type="submit" value="<?= $recipe['id']; ?>" name="like">
-                                                    <?= $recipe['likes']; ?> likes
+                                                    <?= $recipe['likes']; ?> like
                                                 </button>
                                             </form>
                                     </div>
