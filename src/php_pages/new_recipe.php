@@ -63,14 +63,12 @@ if (isset($_POST["submit"])) {
     </head>
     <body class="bg-black text-light">
 
-    <!-- NOTE: This page mainly needs a styling update since it doesn't align with the other pages yet. -->
         <div class="container">
             
-        <div class="container mb-5  mt-4" >
-                <h1 class="mb-3"><a href="../../index.php" class=" text-decoration-none text-light">The best list of recipes</a></h1>
-                <h3><a class="text-decoration-none text-light border border-light p-2" href="./src/php_pages/new_recipe.php">New recipe?</a></h3>
+            <div class="container mb-5  mt-4 border-bottom" >
+                <h1 class=" mt-4"><a href="../../index.php" class=" text-decoration-none text-light">The best list of recipes</a></h1>
+                <h3><a class="btn text-decoration-none text-light border border-light p-2" href="new_recipe.php">New recipe?</a></h3>
             </div>
-
                     <!-- Here is the menu with all the data required -->
                 <form class="container" action="new_recipe.php" method="post">
 
@@ -105,13 +103,13 @@ if (isset($_POST["submit"])) {
                             <textarea name="inhoud" rows="10" cols="100"></textarea>
                         </div>
 
-                        <input class="text-bg-success p-2 border-white mb-5" type="submit" name="submit" value="Publish">
+                        <input class="btn btn-success p-2 border-white mb-2" type="submit" name="submit" value="Publish">
 
                     </div>
                 </form>
 
                 <div class="container">
-                    <a class="text-bg-info p-3 border border-white text-decoration-none text-white" href="../../index.php">Back to home page</a>
+                    <a class="btn btn-info p-2 border border-white text-decoration-none text-white" href="../../index.php">Back to home page</a>
                 </div>
         </div>
     </body>

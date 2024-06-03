@@ -72,7 +72,6 @@
 <html lang="nl">
     <head>
         <title>All of the recipes</title>
-        <!-- NOTE: this favicon is a placeholder, it will be changed eventually -->
         <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -88,10 +87,10 @@
     </head>
     <body class="bg-black text-light">
 
-            <div class="container mb-5  mt-4" >
+            <div class="container mb-5  mt-4 border-bottom" >
                 <h1 class="mb-3"><a href="index.php" class=" text-decoration-none text-light">The best list of recipes</a></h1>
                 <h2 class="mb-4">Selected tag: <?php if (isset($_GET['tag'])) {echo $_GET['tag'];} else {echo "None";} ?></h2>
-                <h3><a class="text-decoration-none text-light border border-light p-2" href="./src/php_pages/new_recipe.php">New recipe?</a></h3>
+                <h3><a class="btn text-decoration-none text-light border border-light p-2" href="./src/php_pages/new_recipe.php">New recipe?</a></h3>
             </div>
             
             <!-- the 3 boxes containing filters by tag and by writer -->
@@ -173,16 +172,16 @@
                                         <!-- NOTE: THE EDIT PAGE DOES NOT WORK FULLY YET, IT DISPLAYS THE CURRENT DATA BUT DOES NOT UPDATE IT, IT ONLY ADDS THE DATA TO A NEW POST -->
                                         <form class="col" action="./src/php_pages/edit_recipe.php" method="get">
                                             <input type="hidden" name="recipe_id" value="<?= $recipe['id']; ?>">
-                                            <button class="text-bg-success bg-gradient border border-light-subtle" type="submit">Edit</button>
+                                            <button class="btn btn-success bg-gradient border border-light-subtle" type="submit">Edit</button>
                                         </form>
 
                                         <form class="col" action="index.php" method="post">
                                             <input type="hidden" name="deleteRecipe" value="<?= $recipe['id']; ?>">
-                                            <button class="btn btn-danger deleteRecipe" type="button" value="<?= $recipe['id']; ?>">Delete</button>
+                                            <button class="btn btn-danger deleteRecipe border border-light-subtle" type="button" value="<?= $recipe['id']; ?>">Delete</button>
                                         </form>
 
                                         <form class="col" action="index.php" method="post">
-                                                <button class="text-bg-primary border-light-subtle addlike" type="submit" value="<?= $recipe['id']; ?>" name="like">
+                                                <button class="btn btn-primary border-light-subtle addlike" type="submit" value="<?= $recipe['id']; ?>" name="like">
                                                     <?= $recipe['likes']; ?> like
                                                 </button>
                                             </form>
@@ -196,7 +195,7 @@
                                             <form class="col" action="index.php" method="get">
                                                 <label class="text-white">Tags:</label>
                                                 <?php foreach ($recipe['tags'] as $tag) { ?>
-                                                    <button class="bg-black text-white border border-light light" type="submit" value="<?=$tag['titel']; ?>" name="tag">
+                                                    <button class="btn bg-black text-white border border-light light" type="submit" value="<?=$tag['titel']; ?>" name="tag">
                                                         <?= $tag['titel']; ?> 
                                                     </button>
                                                 <?php } ?>
