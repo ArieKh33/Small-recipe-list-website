@@ -36,7 +36,7 @@ if ($recipe_id) {
 }
 
 if (isset($_POST["submit"])) {
-    $recipe_id = $_POST["recipe_id"];
+    $recipe_id = $_GET["recipe_id"] ?? null;
     $titel = $_POST["titel"];
     $writer_id = $_POST["writers"];
     $tags = array_map('strtolower', array_map('trim', explode(',', $_POST["tags"])));

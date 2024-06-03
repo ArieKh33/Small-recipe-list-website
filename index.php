@@ -167,15 +167,14 @@
                             <img class="border border-light-subtle" src="<?= $recipe['img_url']; ?>" alt="<?= $recipe['titel']; ?>">
 
                                 <div class="card-body m-1">
-                                    <div class="row ">
-                                        <h5 class="recipe_title text-center col"><?= $recipe['titel']; ?></h2>
+                                        <h5 class="recipe_title col p-1"><?= $recipe['titel']; ?></h2>
 
-
+                                        <div class="row ">
                                         <!-- NOTE: THE EDIT PAGE DOES NOT WORK FULLY YET, IT DISPLAYS THE CURRENT DATA BUT DOES NOT UPDATE IT, IT ONLY ADDS THE DATA TO A NEW POST -->
-                                        <!-- <form class="col" action="./src/php_pages/edit_recipe.php" method="get">
+                                        <form class="col" action="./src/php_pages/edit_recipe.php" method="get">
                                             <input type="hidden" name="recipe_id" value="<?= $recipe['id']; ?>">
                                             <button class="text-bg-success bg-gradient border border-light-subtle" type="submit">Edit</button>
-                                        </form> -->
+                                        </form>
 
                                         <form class="col" action="index.php" method="post">
                                             <input type="hidden" name="deleteRecipe" value="<?= $recipe['id']; ?>">
@@ -195,7 +194,7 @@
                                     <div class="container">
                                         <div class="row mt-2 mb-4 ml-0">
                                             <form class="col" action="index.php" method="get">
-                                                <label class="text-white">Tags: </label>
+                                                <label class="text-white">Tags:</label>
                                                 <?php foreach ($recipe['tags'] as $tag) { ?>
                                                     <button class="bg-black text-white border border-light light" type="submit" value="<?=$tag['titel']; ?>" name="tag">
                                                         <?= $tag['titel']; ?> 
