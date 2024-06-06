@@ -168,21 +168,20 @@
                                 <div class="card-body m-1">
                                         <h5 class="recipe_title col p-1"><?= $recipe['titel']; ?></h2>
 
-                                        <div class="row ">
-                                        <!-- NOTE: THE EDIT PAGE DOES NOT WORK FULLY YET, IT DISPLAYS THE CURRENT DATA BUT DOES NOT UPDATE IT, IT ONLY ADDS THE DATA TO A NEW POST -->
-                                        <form class="col" action="./src/php_pages/edit_recipe.php" method="get">
+                                        <div class="row justify-content-between">
+                                        <form class="col-auto" action="./src/php_pages/edit_recipe.php" method="get">
                                             <input type="hidden" name="recipe_id" value="<?= $recipe['id']; ?>">
                                             <button class="btn btn-success bg-gradient border border-light-subtle" type="submit">Edit</button>
                                         </form>
 
-                                        <form class="col" action="index.php" method="post">
+                                        <form class="col-auto" action="index.php" method="post">
                                             <input type="hidden" name="deleteRecipe" value="<?= $recipe['id']; ?>">
                                             <button class="btn btn-danger deleteRecipe border border-light-subtle" type="button" value="<?= $recipe['id']; ?>">Delete</button>
                                         </form>
 
-                                        <form class="col" action="index.php" method="post">
+                                        <form class="col-auto" action="index.php" method="post">
                                                 <button class="btn btn-primary border-light-subtle addlike" type="submit" value="<?= $recipe['id']; ?>" name="like">
-                                                    <?= $recipe['likes']; ?> like
+                                                    <?= $recipe['likes']; ?> likes
                                                 </button>
                                             </form>
                                     </div>

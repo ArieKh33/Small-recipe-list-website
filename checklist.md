@@ -1,10 +1,10 @@
 # List of needed changes
 - [ ] Make a unique favicon for the website
-- [ ] Use "AJAX" for the website inputs
+- [ ] Use "AJAX" for all website inputs
 - [ ] Think of a website name
 - [ ] Add an edit details page
 - [X] Add a delete button for a recipe
-- [ ] Add a delete button for a tag
+- [X] Add a delete button for a tag -- Kind of resolved, decided to keep that to the edit page.
 - [ ] Add an input file to add a new image
 
 
